@@ -41,32 +41,27 @@ namespace SisFresadora.Pages.Clientes
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync( int id)
         {
-            if (!ModelState.IsValid)
+            var clienteToUpdate = await _context.Clientes.FindAsync(id);
+            if (clienteToUpdate == null)
             {
-                return Page();
+                return NotFound();
             }
-
-            _context.Attach(Cliente).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync<Cliente>(
+                clienteToUpdate,
+                "cliente",
+                c => c.Nome))
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClienteExists(Cliente.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            return Page();
+
+            
+
+           
         }
 
         private bool ClienteExists(int id)

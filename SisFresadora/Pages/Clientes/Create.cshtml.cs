@@ -31,15 +31,22 @@ namespace SisFresadora.Pages.Clientes
         // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            var emptyCliente = new Cliente();
+
+            if (await TryUpdateModelAsync<Cliente>(
+                emptyCliente,
+                "cliente",
+                c => c.Nome))
             {
-                return Page();
+                _context.Clientes.Add(emptyCliente);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
 
-            _context.Clientes.Add(Cliente);
-            await _context.SaveChangesAsync();
+            return Page();
+           
 
-            return RedirectToPage("./Index");
+          
         }
     }
 }
