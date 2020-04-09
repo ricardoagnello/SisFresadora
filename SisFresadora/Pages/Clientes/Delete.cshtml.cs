@@ -21,19 +21,26 @@ namespace SisFresadora.Pages.Clientes
 
         [BindProperty]
         public Cliente Cliente { get; set; }
+        public string ErrorMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            Cliente = await _context.Clientes.FirstOrDefaultAsync(m => m.ID == id);
+            Cliente = await _context.Clientes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
 
             if (Cliente == null)
             {
                 return NotFound();
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ErrorMessage = "Delete failed. Try again";
             }
             return Page();
         }
@@ -45,15 +52,27 @@ namespace SisFresadora.Pages.Clientes
                 return NotFound();
             }
 
-            Cliente = await _context.Clientes.FindAsync(id);
+            var cliente = await _context.Clientes.FindAsync(id);
 
-            if (Cliente != null)
+            if (cliente == null)
             {
-                _context.Clientes.Remove(Cliente);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
 
-            return RedirectToPage("./Index");
+            try
+            {
+                _context.Clientes.Remove(cliente);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch( DbUpdateException ex)
+            {
+                return RedirectToAction(ex.Message);
+            }
+
+            
+
+            
         }
     }
 }
