@@ -31,7 +31,11 @@ namespace SisFresadora
                 try
                 {
                     var context = services.GetRequiredService<SisFresadoraContext>();
+<<<<<<< HEAD
                     DbInitializer.Initialize(context);
+=======
+                    context.Database.EnsureCreated();
+>>>>>>> cb086fb3e8c0396c74a765ab291e030275d52459
                 }
                 catch (Exception ex)
                 {
