@@ -28,7 +28,10 @@ namespace SisFresadora.Pages.Clientes
                 return NotFound();
             }
 
-            Cliente = await _context.Clientes.FirstOrDefaultAsync(m => m.ID == id);
+            Cliente = await _context.Clientes
+                .Include(s => s.Servicos)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
 
             if (Cliente == null)
             {
