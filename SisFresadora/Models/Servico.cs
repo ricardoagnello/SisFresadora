@@ -23,5 +23,22 @@ namespace SisFresadora.Models
         }
         public string Observacoes { get; set; }
         public Cliente Cliente { get; set; }
+
+        public Servico()
+        {
+        }
+
+        public Servico(int iD, int quantidade, string tipo, string material, float modulo, int numeroDentes, float valorUnitario, string observacoes, Cliente cliente)
+        {
+            ID = iD;
+            Quantidade = quantidade;
+            Tipo = tipo;
+            Material = material;
+            Modulo = modulo;
+            NumeroDentes = numeroDentes;
+            ValorUnitario = valorUnitario;
+            Observacoes = observacoes;
+            Cliente = cliente;
+        }
     }
 }

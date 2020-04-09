@@ -9,6 +9,16 @@ namespace SisFresadora.Models
     {
         public int ID { get; set; }
         public string Nome { get; set; }
-        public ICollection<Servico> Servicos { get; set; } 
+        public ICollection<Servico> Servicos { get; set; }
+
+        public Cliente()
+        {
+        }
+
+        public Cliente(int iD, string nome)
+        {
+            ID = iD;
+            Nome = nome;
+        }
     }
 }
