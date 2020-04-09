@@ -30,7 +30,7 @@ namespace SisFresadora.Pages.Clientes
                 return NotFound();
             }
 
-            Cliente = await _context.Cliente.FirstOrDefaultAsync(m => m.ID == id);
+            Cliente = await _context.Clientes.FirstOrDefaultAsync(m => m.ID == id);
 
             if (Cliente == null)
             {
@@ -71,7 +71,7 @@ namespace SisFresadora.Pages.Clientes
 
         private bool ClienteExists(int id)
         {
-            return _context.Cliente.Any(e => e.ID == id);
+            return _context.Clientes.Any(e => e.ID == id);
         }
     }
 }

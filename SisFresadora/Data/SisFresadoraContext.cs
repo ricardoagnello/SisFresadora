@@ -14,6 +14,14 @@ namespace SisFresadora.Data
         {
         }
 
-        public DbSet<SisFresadora.Models.Cliente> Cliente { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Servico> Servicos { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Cliente>().ToTable("Cliente");
+            modelBuilder.Entity<Servico>().ToTable("Servico");
+        }
+        
     }
 }
